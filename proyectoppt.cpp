@@ -11,6 +11,16 @@ struct Participante {
     Participante* siguiente;
 };
 
+// Clase para gestionar la lista circular 
+class JuegoCircular {
+private:
+    Participante* lista;
+    int total;
+
+public:
+    JuegoCircular() : lista(nullptr), total(0) {}
+
+};
 
 int main(){
 int op;
