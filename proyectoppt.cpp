@@ -61,6 +61,17 @@ void JuegoCircular::inscribir(string nom, char identificador) {
         cout << "El Jugador se inscribio.\n";
     }
 
+     // 3) Funcion para mostrar lista de jugadores
+    void mostrarParticipantes() {
+        if (!lista) { cout << "No hay jugadores inscritos.\n"; return; }
+        Participante* aux = lista;
+        cout << "Lista de Competidores\n";
+        do {
+            cout << "ID: " << aux->id << " | Nombre: " << aux->nombre << endl;
+            aux = aux->siguiente;
+        } while (aux != lista);
+    }
+
 int main(){
 JuegoCircular juego;
 string n; 
@@ -84,6 +95,10 @@ int op;
             cout << "ID (caracter): "; cin >> id;
                 juego.inscribir(n, id);
         break;
+
+        case 2:
+            juego.mostrarParticipantes();
+            break;
         
         default:  cout << "Seleccione una opcion valida." << endl;   
             break;
