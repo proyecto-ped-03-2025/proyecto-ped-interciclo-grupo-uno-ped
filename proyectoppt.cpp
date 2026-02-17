@@ -65,7 +65,7 @@ void JuegoCircular::inscribir(string nom, char identificador) {
     }
 
 
-    // 3) Funcion para mostrar lista de jugadores
+    //Funcion para mostrar lista de jugadores
     void JuegoCircular::mostrarParticipantes() {
         if (!lista) { cout << "No hay jugadores inscritos.\n"; return; }
         Participante* aux = lista;
@@ -76,7 +76,7 @@ void JuegoCircular::inscribir(string nom, char identificador) {
         } while (aux != lista);
     };
 
-    // 4) Realización del juego: Todos contra todos 
+    // Realización del juego: Todos contra todos 
     void JuegoCircular::jugar() {
         if (total < 2) { cout << "Se necesitan al menos 2 jugadores.\n"; return; }
         
@@ -145,6 +145,25 @@ void JuegoCircular::reportarGanador() {
         cout << "\nEL GANADOR ES: " << ganador->nombre << " con " << ganador->puntos << " puntos!\n";
     };
 
+//Funcion ayuda que muestra las instrucciones
+void mostrarAyuda() {
+    cout << "Instrucciones: " << endl;
+    cout << "Inscriba jugadores que participaran pulsando (1)" << endl;
+    cout << "Luego pulse (3) para iniciar una ronda" << endl;
+    cout << "Luego escoja una de las opciones (0) piedra, (1) papel, (2) tijera " << endl;
+    cout << "Luego se le asignaran puntos a los jugadores dependiendo de su eleccion" << endl;
+    cout << "Luego pulse (3) para otra ronda o pulse (4) para ver al ganador" << endl;
+}
+
+//Funcion que muestra los integrantes del grupo
+void mostrarIntegrantes() {
+    cout << "Integrantes: " << endl; 
+    cout << "[Diego Ernesto Arevalo Molina - 00367725] " << endl;
+    cout << "[Gerson Rinaldi Martinez Montes- 00360925] " << endl;
+    cout << "[Orlando Vladimir Carcamo Espinal - 00370825]" << endl;
+}
+
+//Funcion principal y menu del juego
 int main(){
 JuegoCircular juego;
 string n; 
@@ -173,12 +192,20 @@ int op;
             juego.mostrarParticipantes();
             break;
         
-         case 3:
+        case 3:
             juego.jugar();
             break;
         
         case 4:
             juego.reportarGanador();
+            break;
+
+        case 5:
+            mostrarAyuda();
+            break;
+
+        case 6:
+            mostrarIntegrantes();
             break;
 
         default:  cout << "Seleccione una opcion valida." << endl;   
