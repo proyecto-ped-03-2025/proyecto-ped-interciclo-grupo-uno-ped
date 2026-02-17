@@ -20,7 +20,9 @@ private:
 public:
     JuegoCircular() : lista(nullptr), total(0) {}
     void inscribir(string nom, char identificador);
-
+    void mostrarParticipantes();
+    void jugar();
+    void enfrentamiento(Participante* a, Participante* b);
 };
 //Funcion que nos permite registrar un participante en nuestra lista circular
 void JuegoCircular::inscribir(string nom, char identificador) {
@@ -61,8 +63,9 @@ void JuegoCircular::inscribir(string nom, char identificador) {
         cout << "El Jugador se inscribio.\n";
     }
 
-     // 3) Funcion para mostrar lista de jugadores
-    void mostrarParticipantes() {
+
+    // 3) Funcion para mostrar lista de jugadores
+    void JuegoCircular::mostrarParticipantes() {
         if (!lista) { cout << "No hay jugadores inscritos.\n"; return; }
         Participante* aux = lista;
         cout << "Lista de Competidores\n";
@@ -70,7 +73,64 @@ void JuegoCircular::inscribir(string nom, char identificador) {
             cout << "ID: " << aux->id << " | Nombre: " << aux->nombre << endl;
             aux = aux->siguiente;
         } while (aux != lista);
+    };
+
+    // 4) Realización del juego: Todos contra todos 
+    void JuegoCircular::jugar() {
+        if (total < 2) { cout << "Se necesitan al menos 2 jugadores.\n"; return; }
+        
+        Participante* actual = lista;
+        for (int i = 0; i < total; i++) {
+            Participante* oponente = actual->siguiente;
+            for (int j = i + 1; j < total; j++) {
+                enfrentamiento(actual, oponente);
+                oponente = oponente->siguiente;
+            }
+            actual = actual->siguiente;
+        }
+        cout << "\nRonda terminada\n";
+            cout << "Pulse (3) para otra ronda" << endl;
+            cout << "O pulse (4) para ver al ganador" << endl;
     }
+
+void JuegoCircular::enfrentamiento(Participante* a, Participante* b) {
+    int eleccionA, eleccionB;
+    
+    cout << "\nTURNO DE COMBATE" << endl;
+    cout << "Combaten: " << a->nombre << " vs " << b->nombre << endl;
+
+    // Entrada para el Jugador 1
+    do {
+        cout << a->nombre << ", elige (0: Piedra, 1: Papel, 2: Tijera): ";
+        cin >> eleccionA;
+    } while (eleccionA < 0 || eleccionA > 2);
+
+    // Entrada para el Jugador 2
+    do {
+        cout << b->nombre << ", elige (0: Piedra, 1: Papel, 2: Tijera): ";
+        cin >> eleccionB;
+    } while (eleccionB < 0 || eleccionB > 2);
+
+    string opciones[] = {"Piedra", "Papel", "Tijera"};
+    cout << "\nResultado: " << a->nombre << " [" << opciones[eleccionA] << "] vs " 
+         << b->nombre << " [" << opciones[eleccionB] << "]" << endl;
+
+    // Lógica de asignación de puntos segun ganen, pierdan o empaten 
+    if (eleccionA == eleccionB) {
+        cout << "Empate, 1 punto para cada uno." << endl;
+        a->puntos += 1;
+        b->puntos += 1;
+    } else if ((eleccionA == 0 && eleccionB == 2) || 
+               (eleccionA == 1 && eleccionB == 0) || 
+               (eleccionA == 2 && eleccionB == 1)) {
+        cout << "Ganador: " << a->nombre << " Recibe 3 puntos." << endl;
+        a->puntos += 3;
+    } else {
+        cout << "Ganador: " << b->nombre << " Recibe 3 puntos." << endl;
+        b->puntos += 3;
+    }
+    cout << "-------------------------" << endl;
+}
 
 int main(){
 JuegoCircular juego;
@@ -100,6 +160,10 @@ int op;
             juego.mostrarParticipantes();
             break;
         
+         case 3:
+            juego.jugar();
+            break;
+
         default:  cout << "Seleccione una opcion valida." << endl;   
             break;
         }
