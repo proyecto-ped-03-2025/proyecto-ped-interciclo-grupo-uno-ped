@@ -23,6 +23,7 @@ public:
     void mostrarParticipantes();
     void jugar();
     void enfrentamiento(Participante* a, Participante* b);
+    void reportarGanador();
 };
 //Funcion que nos permite registrar un participante en nuestra lista circular
 void JuegoCircular::inscribir(string nom, char identificador) {
@@ -131,6 +132,18 @@ void JuegoCircular::enfrentamiento(Participante* a, Participante* b) {
     }
     cout << "-------------------------" << endl;
 }
+//FUncion para reportar el ganador, recorre la lista comparando cual es el jugador con mas puntos.
+void JuegoCircular::reportarGanador() {
+        if (!lista) return;
+        Participante* aux = lista;
+        Participante* ganador = lista;
+        do {
+            if (aux->puntos > ganador->puntos) ganador = aux;
+            aux = aux->siguiente;
+        } while (aux != lista);
+
+        cout << "\nEL GANADOR ES: " << ganador->nombre << " con " << ganador->puntos << " puntos!\n";
+    };
 
 int main(){
 JuegoCircular juego;
@@ -162,6 +175,10 @@ int op;
         
          case 3:
             juego.jugar();
+            break;
+        
+        case 4:
+            juego.reportarGanador();
             break;
 
         default:  cout << "Seleccione una opcion valida." << endl;   
